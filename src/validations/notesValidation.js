@@ -1,5 +1,5 @@
 import { Joi, Segments } from 'celebrate';
-import { TAGS } from '../constants/tags';
+import { TAGS } from '../constants/tags.js';
 import { isValidObjectId } from 'mongoose';
 
 export const getAllNotesSchema = {
@@ -9,7 +9,7 @@ export const getAllNotesSchema = {
     tag: Joi.string()
       .valid(...TAGS)
       .optional(),
-    search: Joi.string().allow(''),
+    search: Joi.string().trim().allow(''),
   }),
 };
 

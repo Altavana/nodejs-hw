@@ -4,10 +4,20 @@ import createHttpError from 'http-errors';
 export const getAllNotes = async (req, res) => {
   // Отримуємо параметри пагінації
   // і задаємо дефолтні значення
-  const { page = 1, perPage = 10 } = req.query;
+  const { page = 1, perPage = 10, tag, search } = req.query;
 
   const skip = (page - 1) * perPage;
+  // Створюємо базовий запит
   const notesQuery = Note.find();
+  // Фільтр за статтю
+  if (tag) {
+    notesQuery.where('tag').equals(tag);
+  }
+  // Текстовий пошук по  нотатках по властивостям title та content (працює лише якщо створено текстовий індекс)
+  if (search) {
+    notesQuery.where({ $text: { $search: search } });
+  }
+
   const [totalItems, notes] = await Promise.all([
     notesQuery.clone().countDocuments(),
     notesQuery.skip(skip).limit(perPage),
