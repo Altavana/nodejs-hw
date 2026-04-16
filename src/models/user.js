@@ -4,6 +4,7 @@ const userSchema = new Schema(
   {
     username: {
       type: String,
+      required: false,
       trim: true, // прибирає пробіли на початку та в кінці
     },
     email: {
@@ -15,6 +16,11 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+    },
+    avatar: {
+      type: String,
+      required: false,
+      default: 'https://ac.goit.global/fullstack/react/default-avatar.jpg',
     },
   },
   {
